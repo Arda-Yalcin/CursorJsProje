@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harita Seçimi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Harita seçim container -->
+    <div class="selection-container">
+        <h1 class="page-title">Harita Seçimi</h1>
+        
+        <!-- Harita seçenekleri -->
+        <div class="map-grid">
+            <!-- 1. Harita: Yeşillikli Orman -->
+            <div class="map-card" data-map="orman" data-desc="Yeşillikli orman içerisinde bir harita">
+                <div class="map-preview forest-map"></div>
+                <h3>Orman Haritası</h3>
+                <p class="character-desc">Yeşillikler içinde savaş</p>
+            </div>
+
+            <!-- 2. Harita: Çöl -->
+            <div class="map-card" data-map="çöl" data-desc="Kurak çöl ortamı">
+                <div class="map-preview desert-map"></div>
+                <h3>Çöl Haritası</h3>
+                <p class="character-desc">Sıcak çöl savaşı</p>
+            </div>
+        </div>
+
+        <!-- Seçilen harita bilgisi -->
+        <div id="selected-map" class="selected-info"></div>
+
+        <!-- Onaylama butonları -->
+        <div class="action-buttons">
+            <button class="confirm-btn" onclick="confirmSelection()">Seçimi Onayla</button>
+            <button class="cancel-btn" onclick="window.location.href='index.html'">Geri Dön</button>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+    <script>
+        // Seçilen harita değişkeni
+        let selectedMap = null;
+
+        // Sayfa yüklendiğinde event listener'ları ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.map-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = this.getAttribute('data-map');
+                    const description = this.getAttribute('data-desc');
+                    selectMap(type, description, this);
+                });
+            });
+        });
+
+        // Harita seçim fonksiyonu
+        function selectMap(type, description, element) {
+            selectedMap = type;
+            
+            // Tüm kartları normal duruma getir
+            document.querySelectorAll('.map-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seçilen kartı işaretle
+            element.classList.add('selected');
+            
+            // Seçim bilgisini göster
+            document.getElementById('selected-map').innerHTML = 
+                `<p><strong>Seçilen:</strong> ${description}</p>`;
+        }
+
+        // Seçimi onaylama fonksiyonu
+        function confirmSelection() {
+            if (!selectedMap) {
+                alert('Lütfen bir harita seçin!');
+                return;
+            }
+            
+            // Seçimi localStorage'a kaydet
+            localStorage.setItem('selectedMap', selectedMap);
+            localStorage.setItem('mapStatus', getMapName(selectedMap));
+            
+            // Ana menüye dön
+            window.location.href = 'index.html';
+        }
+
+        // Harita adını getir
+        function getMapName(type) {
+            const names = {
+                'orman': 'Orman Haritası',
+                'çöl': 'Çöl Haritası'
+            };
+            return names[type] || 'Bilinmeyen';
+        }
+    </script>
+</body>
+</html>

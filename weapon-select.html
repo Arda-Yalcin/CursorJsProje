@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silah Seçimi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Silah seçim container -->
+    <div class="selection-container">
+        <h1 class="page-title">Kılıç Seçimi</h1>
+        
+        <!-- Kılıç seçenekleri -->
+        <div class="weapon-grid">
+            <!-- 1. Kılıç: Hızlı vuruş, düşük hasar -->
+            <div class="weapon-card" data-weapon="hızlı" data-desc="Hızlı vuruş, düşük hasar">
+                <div class="weapon-preview fast-sword"></div>
+                <h3>Hızlı Kılıç</h3>
+                <p class="weapon-stats">Hasar: Düşük</p>
+                <p class="weapon-stats">Vuruş Hızı: Yüksek</p>
+                <p class="character-desc">Saniyede çok sayıda vuruş yapabilir</p>
+            </div>
+
+            <!-- 2. Kılıç: Orta hasar, orta hız -->
+            <div class="weapon-card" data-weapon="orta" data-desc="Orta hasar, orta vuruş hızı">
+                <div class="weapon-preview medium-sword"></div>
+                <h3>Orta Kılıç</h3>
+                <p class="weapon-stats">Hasar: Orta</p>
+                <p class="weapon-stats">Vuruş Hızı: Orta</p>
+                <p class="character-desc">Dengeli hasar ve hız</p>
+            </div>
+
+            <!-- 3. Kılıç: Orta-üst hasar, orta hız -->
+            <div class="weapon-card" data-weapon="ortaüst" data-desc="Orta-üst hasar, orta vuruş hızı">
+                <div class="weapon-preview mid-high-sword"></div>
+                <h3>Gelişmiş Kılıç</h3>
+                <p class="weapon-stats">Hasar: Orta-Üst</p>
+                <p class="weapon-stats">Vuruş Hızı: Orta</p>
+                <p class="character-desc">Güçlü vuruşlar, dengeli hız</p>
+            </div>
+
+            <!-- 4. Kılıç: Ağır hasar, yavaş hız -->
+            <div class="weapon-card" data-weapon="ağır" data-desc="Ağır hasar, yavaş vuruş hızı">
+                <div class="weapon-preview heavy-sword"></div>
+                <h3>Ağır Kılıç</h3>
+                <p class="weapon-stats">Hasar: Yüksek</p>
+                <p class="weapon-stats">Vuruş Hızı: Düşük</p>
+                <p class="character-desc">Çok güçlü ama yavaş vuruşlar</p>
+            </div>
+        </div>
+
+        <!-- Seçilen silah bilgisi -->
+        <div id="selected-weapon" class="selected-info"></div>
+
+        <!-- Onaylama butonları -->
+        <div class="action-buttons">
+            <button class="confirm-btn" onclick="confirmSelection()">Seçimi Onayla</button>
+            <button class="cancel-btn" onclick="window.location.href='index.html'">Geri Dön</button>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+    <script>
+        // Seçilen silah değişkeni
+        let selectedWeapon = null;
+
+        // Sayfa yüklendiğinde event listener'ları ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.weapon-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = this.getAttribute('data-weapon');
+                    const description = this.getAttribute('data-desc');
+                    selectWeapon(type, description, this);
+                });
+            });
+        });
+
+        // Silah seçim fonksiyonu
+        function selectWeapon(type, description, element) {
+            selectedWeapon = type;
+            
+            // Tüm kartları normal duruma getir
+            document.querySelectorAll('.weapon-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seçilen kartı işaretle
+            element.classList.add('selected');
+            
+            // Seçim bilgisini göster
+            document.getElementById('selected-weapon').innerHTML = 
+                `<p><strong>Seçilen:</strong> ${description}</p>`;
+        }
+
+        // Seçimi onaylama fonksiyonu
+        function confirmSelection() {
+            if (!selectedWeapon) {
+                alert('Lütfen bir silah seçin!');
+                return;
+            }
+            
+            // Seçimi localStorage'a kaydet
+            localStorage.setItem('selectedWeapon', selectedWeapon);
+            localStorage.setItem('weaponStatus', getWeaponName(selectedWeapon));
+            
+            // Ana menüye dön
+            window.location.href = 'index.html';
+        }
+
+        // Silah adını getir
+        function getWeaponName(type) {
+            const names = {
+                'hızlı': 'Hızlı Kılıç',
+                'orta': 'Orta Kılıç',
+                'ortaüst': 'Gelişmiş Kılıç',
+                'ağır': 'Ağır Kılıç'
+            };
+            return names[type] || 'Bilinmeyen';
+        }
+    </script>
+</body>
+</html>

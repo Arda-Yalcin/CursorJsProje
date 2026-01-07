@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karakter Seçimi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Karakter seçim container -->
+    <div class="selection-container">
+        <h1 class="page-title">Karakter Seçimi</h1>
+        
+        <!-- Karakter seçenekleri -->
+        <div class="character-grid">
+            <!-- 1. Karakter: Kadın ve Zayıf -->
+            <div class="character-card" data-char="kadın" data-desc="Zayıf, hızlı hareket eder">
+                <div class="character-preview female-thin"></div>
+                <h3>Hafif Savaşçı</h3>
+                <p>Kadın - Zayıf</p>
+                <p class="character-desc">Hızlı ve çevik bir savaşçı</p>
+            </div>
+
+            <!-- 2. Karakter: Beyaz Erkek Kaslı -->
+            <div class="character-card" data-char="kaslı" data-desc="Kaslı, dengeli istatistikler">
+                <div class="character-preview male-muscular"></div>
+                <h3>Güçlü Savaşçı</h3>
+                <p>Erkek - Kaslı</p>
+                <p class="character-desc">Güçlü ve dayanıklı</p>
+            </div>
+
+            <!-- 3. Karakter: Siyah Erkek Normal -->
+            <div class="character-card" data-char="normal" data-desc="Normal vücut, dengeli özellikler">
+                <div class="character-preview male-normal"></div>
+                <h3>Dengeli Savaşçı</h3>
+                <p>Erkek - Normal</p>
+                <p class="character-desc">Dengeli istatistiklere sahip</p>
+            </div>
+        </div>
+
+        <!-- Seçilen karakter bilgisi -->
+        <div id="selected-character" class="selected-info"></div>
+
+        <!-- Onaylama butonları -->
+        <div class="action-buttons">
+            <button class="confirm-btn" onclick="confirmSelection()">Seçimi Onayla</button>
+            <button class="cancel-btn" onclick="window.location.href='index.html'">Geri Dön</button>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+    <script>
+        // Seçilen karakter değişkeni
+        let selectedCharacter = null;
+
+        // Sayfa yüklendiğinde event listener'ları ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = this.getAttribute('data-char');
+                    const description = this.getAttribute('data-desc');
+                    selectCharacter(type, description, this);
+                });
+            });
+        });
+
+        // Karakter seçim fonksiyonu
+        function selectCharacter(type, description, element) {
+            selectedCharacter = type;
+            
+            // Tüm kartları normal duruma getir
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seçilen kartı işaretle
+            element.classList.add('selected');
+            
+            // Seçim bilgisini göster
+            document.getElementById('selected-character').innerHTML = 
+                `<p><strong>Seçilen:</strong> ${description}</p>`;
+        }
+
+        // Seçimi onaylama fonksiyonu
+        function confirmSelection() {
+            if (!selectedCharacter) {
+                alert('Lütfen bir karakter seçin!');
+                return;
+            }
+            
+            // Seçimi localStorage'a kaydet
+            localStorage.setItem('selectedCharacter', selectedCharacter);
+            localStorage.setItem('characterStatus', getCharacterName(selectedCharacter));
+            
+            // Ana menüye dön
+            window.location.href = 'index.html';
+        }
+
+        // Karakter adını getir
+        function getCharacterName(type) {
+            const names = {
+                'kadın': 'Hafif Savaşçı',
+                'kaslı': 'Güçlü Savaşçı',
+                'normal': 'Dengeli Savaşçı'
+            };
+            return names[type] || 'Bilinmeyen';
+        }
+    </script>
+</body>
+</html>

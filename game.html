@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss Savaş Oyunu</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Oyun container -->
+    <div class="game-container">
+        <!-- Oyun canvas'ı -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Oyun UI -->
+        <div class="game-ui">
+            <div class="player-stats">
+                <div><strong>Bölüm:</strong> <span id="current-level">1</span></div>
+                <div><strong>Can:</strong> <span id="player-health">100</span>/<span id="player-max-health">100</span></div>
+                <div class="health-bar">
+                    <div class="health-fill" id="player-health-bar" style="width: 100%"></div>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9em; color: #ccc;">
+                    <div>WASD/Ok Tuşları: Hareket</div>
+                    <div>Space: Saldır</div>
+                    <div>ESC: Duraklat</div>
+                </div>
+            </div>
+            <div class="boss-stats" id="boss-stats" style="display: none;">
+                <div><strong>Boss Can:</strong> <span id="boss-health">100</span>/<span id="boss-max-health">100</span></div>
+                <div class="boss-health-bar">
+                    <div class="boss-health-fill" id="boss-health-bar" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kapı seçim ekranı -->
+        <div class="door-selection" id="door-selection">
+            <h2>Kapı Seçiniz</h2>
+            <p>Boss ile karşılaşmak için bir kapı seçin</p>
+            <div class="door-buttons">
+                <button class="door-btn" onclick="selectDoor(1)">Kapı 1</button>
+                <button class="door-btn" onclick="selectDoor(2)">Kapı 2</button>
+            </div>
+        </div>
+
+        <!-- Bilgilendirme kutusu -->
+        <div class="info-box" id="info-box">
+            <h2 id="info-title">Bilgilendirme</h2>
+            <div id="info-content"></div>
+            <div id="info-buttons"></div>
+        </div>
+
+        <!-- Duraklatma menüsü -->
+        <div class="pause-menu" id="pause-menu">
+            <h2>Duraklatıldı</h2>
+            <button onclick="resumeGame()">Devam Et</button>
+            <button onclick="goToMainMenu()">Ana Menü</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

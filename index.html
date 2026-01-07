@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss Savaş Oyunu - Ana Menü</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Ana menü container -->
+    <div class="menu-container">
+        <h1 class="game-title">BOSS SAVAŞ OYUNU</h1>
+        
+        <!-- Seçim durumu göstergesi -->
+        <div class="selection-status">
+            <h2>Seçimleriniz</h2>
+            <div class="status-item">
+                <span>Karakter:</span>
+                <span id="character-status" class="status-value">Seçilmedi</span>
+            </div>
+            <div class="status-item">
+                <span>Zırh:</span>
+                <span id="armor-status" class="status-value">Seçilmedi</span>
+            </div>
+            <div class="status-item">
+                <span>Silah:</span>
+                <span id="weapon-status" class="status-value">Seçilmedi</span>
+            </div>
+            <div class="status-item">
+                <span>Harita:</span>
+                <span id="map-status" class="status-value">Seçilmedi</span>
+            </div>
+        </div>
+
+        <!-- Menü butonları -->
+        <div class="menu-buttons">
+            <button class="menu-btn" onclick="window.location.href='character-select.html'">
+                Karakter Seç
+            </button>
+            <button class="menu-btn" onclick="window.location.href='armor-select.html'">
+                Zırh Seç
+            </button>
+            <button class="menu-btn" onclick="window.location.href='weapon-select.html'">
+                Silah Seç
+            </button>
+            <button class="menu-btn" onclick="window.location.href='map-select.html'">
+                Harita Seç
+            </button>
+            <button class="menu-btn start-btn" id="start-btn" onclick="startGame()">
+                Oyunu Başlat
+            </button>
+        </div>
+
+        <!-- Hata mesajı -->
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <script src="menu.js"></script>
+</body>
+</html>

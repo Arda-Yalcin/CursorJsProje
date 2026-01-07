@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zırh Seçimi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Zırh seçim container -->
+    <div class="selection-container">
+        <h1 class="page-title">Zırh Seçimi</h1>
+        
+        <!-- Zırh seçenekleri -->
+        <div class="armor-grid">
+            <!-- 1. Zırh: Hafif - Düşük koruma, yüksek hız -->
+            <div class="armor-card" data-armor="hafif" data-desc="Düşük koruma, hareket hızını arttırır">
+                <div class="armor-preview light-armor"></div>
+                <h3>Hafif Zırh</h3>
+                <p class="armor-stats">Koruma: Düşük</p>
+                <p class="armor-stats">Hareket: +%30 Hız</p>
+                <p class="character-desc">Hafifliği sayesinde hızlı hareket edersiniz</p>
+            </div>
+
+            <!-- 2. Zırh: Orta - Dengeli -->
+            <div class="armor-card" data-armor="orta" data-desc="Orta koruma, hareket hızını etkilemez">
+                <div class="armor-preview medium-armor"></div>
+                <h3>Orta Zırh</h3>
+                <p class="armor-stats">Koruma: Orta</p>
+                <p class="armor-stats">Hareket: Normal</p>
+                <p class="character-desc">Dengeli koruma ve hareket</p>
+            </div>
+
+            <!-- 3. Zırh: Ağır - Yüksek koruma, düşük hız -->
+            <div class="armor-card" data-armor="ağır" data-desc="Yüksek koruma, hareket hızını düşürür">
+                <div class="armor-preview heavy-armor"></div>
+                <h3>Ağır Zırh</h3>
+                <p class="armor-stats">Koruma: Yüksek</p>
+                <p class="armor-stats">Hareket: -%30 Hız</p>
+                <p class="character-desc">Sağlam koruma ama yavaş hareket</p>
+            </div>
+        </div>
+
+        <!-- Seçilen zırh bilgisi -->
+        <div id="selected-armor" class="selected-info"></div>
+
+        <!-- Onaylama butonları -->
+        <div class="action-buttons">
+            <button class="confirm-btn" onclick="confirmSelection()">Seçimi Onayla</button>
+            <button class="cancel-btn" onclick="window.location.href='index.html'">Geri Dön</button>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+    <script>
+        // Seçilen zırh değişkeni
+        let selectedArmor = null;
+
+        // Sayfa yüklendiğinde event listener'ları ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.armor-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = this.getAttribute('data-armor');
+                    const description = this.getAttribute('data-desc');
+                    selectArmor(type, description, this);
+                });
+            });
+        });
+
+        // Zırh seçim fonksiyonu
+        function selectArmor(type, description, element) {
+            selectedArmor = type;
+            
+            // Tüm kartları normal duruma getir
+            document.querySelectorAll('.armor-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seçilen kartı işaretle
+            element.classList.add('selected');
+            
+            // Seçim bilgisini göster
+            document.getElementById('selected-armor').innerHTML = 
+                `<p><strong>Seçilen:</strong> ${description}</p>`;
+        }
+
+        // Seçimi onaylama fonksiyonu
+        function confirmSelection() {
+            if (!selectedArmor) {
+                alert('Lütfen bir zırh seçin!');
+                return;
+            }
+            
+            // Seçimi localStorage'a kaydet
+            localStorage.setItem('selectedArmor', selectedArmor);
+            localStorage.setItem('armorStatus', getArmorName(selectedArmor));
+            
+            // Ana menüye dön
+            window.location.href = 'index.html';
+        }
+
+        // Zırh adını getir
+        function getArmorName(type) {
+            const names = {
+                'hafif': 'Hafif Zırh',
+                'orta': 'Orta Zırh',
+                'ağır': 'Ağır Zırh'
+            };
+            return names[type] || 'Bilinmeyen';
+        }
+    </script>
+</body>
+</html>
